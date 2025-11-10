@@ -1,16 +1,12 @@
-import { MedusaModule } from "@medusajs/framework/modules-sdk"
+import { ExecArgs } from "@medusajs/framework/types"
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils"
+import { createApiKeysWorkflow } from "@medusajs/medusa/core-flows"
 
-export default async function () {
-  const container = MedusaModule.getBootstrapContainer()
+export default async function ({ container }: ExecArgs) {
   const logger = container.resolve(ContainerRegistrationKeys.LOGGER)
 
   try {
     logger.info("Creating publishable API key...")
-
-    const { createApiKeysWorkflow } = await import(
-      "@medusajs/medusa/core-flows"
-    )
 
     const { result: publishableApiKeyResult } = await createApiKeysWorkflow(
       container
